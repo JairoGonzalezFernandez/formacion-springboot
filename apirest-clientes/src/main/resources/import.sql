@@ -2,7 +2,7 @@ INSERT INTO clientes(nombre,apellido,email,telefono,create_at) VALUES ('Jose','P
 INSERT INTO clientes(nombre,apellido,email,telefono,create_at) VALUES ('Carlos','Lopez','cl@gmail.com',5456745,'2022-03-01');
 INSERT INTO clientes(nombre,apellido,email,telefono,create_at) VALUES ('Jairo','Gonzalez','jg@gmail.com',5984545,'2022-03-01');
 INSERT INTO clientes(nombre,apellido,email,telefono,create_at) VALUES ('Luis','Valle','lv@gmail.com',1254545,'2022-03-01');
-INSERT INTO clientes(nombre,apellido,email,telefono,create_at) VALUES ('Juan','Garcia','jg@gmail.com',5454235,'2022-03-01');
+INSERT INTO clientes(nombre,apellido,email,telefono,create_at) VALUES ('Juan','Garcia','jt@gmail.com',5454235,'2022-03-01');
 INSERT INTO clientes(nombre,apellido,email,telefono,create_at) VALUES ('Marcos','Suarez','ms@gmail.com',5445545,'2022-03-01');
 INSERT INTO clientes(nombre,apellido,email,telefono,create_at) VALUES ('Pablo','Fernandez','pf@gmail.com',5450045,'2022-03-01');
 INSERT INTO clientes(nombre,apellido,email,telefono,create_at) VALUES ('Antonio','Diaz','ad@gmail.com',5904545,'2022-03-01');
