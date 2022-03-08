@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.formacionspringboot.apirest.entity.Cliente;
+import com.formacionspringboot.apirest.entity.Region;
 
 
 public interface ClienteService {
@@ -16,6 +17,9 @@ public interface ClienteService {
 	public Cliente save(Cliente cliente);
 	
 	public void delete(Long id);
+	
+	
+	public List<Region> findAllRegiones();
 
 	
 		

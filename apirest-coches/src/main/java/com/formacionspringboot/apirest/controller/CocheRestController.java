@@ -24,25 +24,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.formacionspringboot.apirest.entity.Cliente;
-import com.formacionspringboot.apirest.entity.Region;
-import com.formacionspringboot.apirest.service.ClienteService;
+import com.formacionspringboot.apirest.entity.Coche;
+import com.formacionspringboot.apirest.entity.Marca;
+import com.formacionspringboot.apirest.entity.Modelo;
+import com.formacionspringboot.apirest.service.CocheService;
 
-@RestController
-@RequestMapping("/api")
-public class ClienteRestController {
+
+
+public class CocheRestController {
 	
 	@Autowired
-	private ClienteService servicio;
+	private CocheService servicio;
 	
-	@GetMapping({"/clientes","/todos"})
-	public List<Cliente> index(){
+	@GetMapping({"/coches","/todos"})
+	public List<Coche> index(){
 		return servicio.findAll();
 		
 	}
@@ -52,14 +50,14 @@ public class ClienteRestController {
 		return servicio.findById(id);
 	}*/
 	
-	@GetMapping("/clientes/{id}")
-	public ResponseEntity<?> findClienteById(@PathVariable Long id){
-		Cliente cliente = null;
+	@GetMapping("/coches/{id}")
+	public ResponseEntity<?> findCocheById(@PathVariable Long id){
+		Coche coche = null;
 		Map<String, Object> response = new HashMap<>();
 		
 		try {
 			
-			cliente = servicio.findById(id);
+			coche = servicio.findById(id);
 			
 		}catch (DataAccessException e) {
 			response.put("mensaje","Error al realizar consulta a base de datos");
@@ -69,14 +67,14 @@ public class ClienteRestController {
 			
 		}
 		
-		if(cliente == null) {
+		if(coche == null) {
 			
-			response.put("mensaje", "El cliente ID:" +id.toString()+("no existe en la base de datos"));
+			response.put("mensaje", "El coche ID:" +id.toString()+("no existe en la base de datos"));
 			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.NOT_FOUND);
 			
 		}
 		
-		return new ResponseEntity<Cliente>(cliente,HttpStatus.OK);
+		return new ResponseEntity<Coche>(coche,HttpStatus.OK);
 	}
 	
 	
@@ -86,13 +84,13 @@ public class ClienteRestController {
 		return servicio.save(cliente);
 	}*/
 	
-	public ResponseEntity<?> saveCliente(@RequestBody Cliente cliente){
-		Cliente clienteNew = null;
+	public ResponseEntity<?> saveCoche(@RequestBody Coche coche){
+		Coche cocheNew = null;
 		Map<String,Object> response = new HashMap<>();
 		
 		try {
 			
-			clienteNew = servicio.save(cliente);
+			cocheNew = servicio.save(coche);
 			
 		}catch (DataAccessException e){
 			response.put("mensaje","Error al realizar consulta a base de datos");
@@ -101,8 +99,8 @@ public class ClienteRestController {
 			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-		response.put("mensaje","El clinte ha sido creado con exito!");
-		response.put("cliente", clienteNew);
+		response.put("mensaje","El coche ha sido creado con exito!");
+		response.put("coche", cocheNew);
 		
 		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED);
 		
@@ -123,27 +121,28 @@ public class ClienteRestController {
 	}*/
 	
 	
-	@PutMapping("/cliente/{id}")
-	public ResponseEntity<?> updateCliente(@RequestBody Cliente cliente, @PathVariable Long id){
-		Cliente clienteActual = servicio.findById(id);
+	@PutMapping("/coche/{id}")
+	public ResponseEntity<?> updateCoche(@RequestBody Coche coche, @PathVariable Long id){
+		Coche cocheActual = servicio.findById(id);
 		
 		Map<String, Object> response = new HashMap<>();
 		
-		if(clienteActual == null) {
-			response.put("mensaje", "Error: no se puedo editar, el cliente con ID: "+id.toString()+" no existe en la base de datos");
+		if(cocheActual == null) {
+			response.put("mensaje", "Error: no se puedo editar, el coche con ID: "+id.toString()+" no existe en la base de datos");
 			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.NOT_FOUND);
 			
 		}
 		
 		try {
 			
-			clienteActual.setNombre(cliente.getNombre());
-			clienteActual.setApellido(cliente.getApellido());
-			clienteActual.setEmail(cliente.getEmail());
-			clienteActual.setTelefono(cliente.getTelefono());
-			clienteActual.setCreatedAt(cliente.getCreatedAt());
+			cocheActual.setColor(coche.getColor());
+			cocheActual.setMatricula(coche.getMatricula());
+			cocheActual.setCilindrada(coche.getCilindrada());
+			cocheActual.setVelocidad(coche.getVelocidad());
+			cocheActual.setMarca(coche.getMarca());
+			cocheActual.setModelo(coche.getModelo());
 			
-			servicio.save(clienteActual);
+			servicio.save(cocheActual);
 			
 		}catch (DataAccessException e){
 			
@@ -154,8 +153,8 @@ public class ClienteRestController {
 			
 		}
 		
-		response.put("mensaje","El clinte ha sido actualizao con exito!");
-		response.put("cliente", clienteActual);
+		response.put("mensaje","El coche ha sido actualizao con exito!");
+		response.put("coche", cocheActual);
 		
 		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED);
 		
@@ -171,15 +170,15 @@ public class ClienteRestController {
 	}*/
 	
 	
-	@DeleteMapping("/cliente/{id}")
-	public ResponseEntity<?> deleteCliente(@PathVariable Long id) {
+	@DeleteMapping("/coche/{id}")
+	public ResponseEntity<?> deleteCoche(@PathVariable Long id) {
 		
-		Cliente clienteActual = servicio.findById(id);
+		Coche cocheActual = servicio.findById(id);
 		
 		Map<String, Object> response = new HashMap<>();
 		
-		if(clienteActual == null) {
-			response.put("mensaje", "Error: no se puedo editar, el cliente con ID: "+id.toString()+" no existe en la base de datos");
+		if(cocheActual == null) {
+			response.put("mensaje", "Error: no se puedo editar, el coche con ID: "+id.toString()+" no existe en la base de datos");
 			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.NOT_FOUND);
 			
 		}
@@ -188,17 +187,7 @@ public class ClienteRestController {
 		
 		servicio.delete(id);
 		
-		String nombreFotoAnterior = clienteActual.getImagen();
 		
-		
-		if(nombreFotoAnterior !=null && nombreFotoAnterior.length() >0) {
-			Path rutaFotoAnterior = Paths.get("uploads").resolve(nombreFotoAnterior).toAbsolutePath();
-			File archivoFotoAnterior = rutaFotoAnterior.toFile();
-			
-			if(archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {
-				archivoFotoAnterior.delete();
-			}
-		}
 		
 		}catch (DataAccessException e) {
 			response.put("mensaje","Error al realizar consulta a base de datos");
@@ -209,8 +198,8 @@ public class ClienteRestController {
 			
 		}
 		
-		response.put("mensaje","El cliente ha sido eliminado con exito!");
-		response.put("cliente", clienteActual);
+		response.put("mensaje","El coche ha sido eliminado con exito!");
+		response.put("coche", cocheActual);
 		
 		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
 		
@@ -218,12 +207,12 @@ public class ClienteRestController {
 
 	
 	
-	@PostMapping("cliente/upload")
+	@PostMapping("coche/upload")
 	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id){
 		
 		Map<String, Object> response = new HashMap<>();
 		
-		Cliente cliente = servicio.findById(id);
+		Coche coche = servicio.findById(id);
 		
 		if(!archivo.isEmpty()) {
 			//String nombreArchivo = archivo.getOriginalFilename();
@@ -245,70 +234,36 @@ public class ClienteRestController {
 			
 		}
 		
-		String nombreFotoAnterior = cliente.getImagen();
 		
 		
-		if(nombreFotoAnterior !=null && nombreFotoAnterior.length() >0) {
-			Path rutaFotoAnterior = Paths.get("uploads").resolve(nombreFotoAnterior).toAbsolutePath();
-			File archivoFotoAnterior = rutaFotoAnterior.toFile();
-			
-			if(archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {
-				archivoFotoAnterior.delete();
-			}
+		
+		
 		}
 		
 		
-		cliente.setImagen(nombreArchivo);
-		servicio.save(cliente);
+		servicio.save(coche);
 		
-		response.put("cliente", cliente);
-		response.put("mensaje", "Has subido correctamente la imagen:" +nombreArchivo);
+		response.put("cliente", coche);
 		
-	
 		
-	}
 	
 	return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
 	
 	}
 	
 	
-	@GetMapping("/uploads/imagen/{nombreImagen:.+}")
-	public ResponseEntity<Resource> verImagen(@PathVariable String nombreImagen){
+	
 		
-		Path rutaImagen = Paths.get("uploads").resolve(nombreImagen).toAbsolutePath();
-		
-		Resource recurso = null;
-		
-		try {
-			
-			recurso = new UrlResource(rutaImagen.toUri());
-			
-		}catch(MalformedURLException e){
-			e.printStackTrace();
-			
-		}
-		
-		if(!recurso.exists() && !recurso.isReadable()) {
-			
-			throw new RuntimeException("Error no se puede cargar la imagen "+nombreImagen);
-		
-		}
-		
-		HttpHeaders cabecera = new HttpHeaders();
-		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=\" "+recurso.getFilename()+"\"");
-		
-		return new ResponseEntity<Resource>(recurso,cabecera,HttpStatus.OK);
-		
+	
+	
+	@GetMapping("/coche/modelos")
+	public List<Modelo> listarModelos(){
+		return servicio.findAllModelos();
 	}
 	
-	@GetMapping("/clientes/regiones")
-	public List<Region> listarRegiones(){
-		return servicio.findAllRegiones();
+	@GetMapping("/coche/marcas")
+	public List<Marca> listarMarcas(){
+		return servicio.findAllMarcas();
 	}
-	
+
 }
-	
-
-
-

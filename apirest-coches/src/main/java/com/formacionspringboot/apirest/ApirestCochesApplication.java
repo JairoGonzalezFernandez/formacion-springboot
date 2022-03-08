@@ -9,15 +9,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 
+
 @SpringBootApplication
-@OpenAPIDefinition(info = @Info(title = "API Clientes",version = "1.0",description ="Crud completo de Clientes"))
-public class ApirestClientesApplication implements CommandLineRunner{
-	
+@OpenAPIDefinition(info = @Info(title = "API Coches",version = "1.0",description ="Crud completo de Coches"))
+public class ApirestCochesApplication implements CommandLineRunner{
+
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
 	public static void main(String[] args) {
-		SpringApplication.run(ApirestClientesApplication.class, args);
+		SpringApplication.run(ApirestCochesApplication.class, args);
 	}
 
 	@Override
